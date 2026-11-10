@@ -179,7 +179,7 @@ Results from the original Windows workstation, not from a public deployment:
 - Original fitted model content fingerprint: `sha256:a2485e81e9f4`.
 - Drift training reference: **67,529 rows**, 13 histogram bins.
 - Docker API and Prometheus containers were healthy; Prometheus scraping, two alert rules, and structured prediction logging were verified locally.
-- The GitHub Actions workflow has been created, but **no remote CI result has been observed yet**.
+- **GitHub Actions: verified successful.** [Run ID: `42859752354`](https://github.com/tahamohmadf19-dev/olist-mlops-project/actions/runs/42859752354) confirmed **172 passed, 1 warning**; Ruff lint and format passed; Docker image build succeeded.
 
 ## Limitations and security
 
