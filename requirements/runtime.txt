@@ -1,0 +1,7 @@
+# Exact versions reported in the student's existing Windows virtual environment.
+# Install only if needed; do not silently replace a working environment.
+numpy==2.5.4
+pandas==3.1.0
+scipy==1.18.1
+scikit-learn==1.9.1
+joblib==1.6.0

@@ -1,0 +1,54 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Generated ML artifacts and datasets
+/artifacts/**
+!/artifacts/**/
+!/artifacts/**/*.dvc
+!/artifacts/**/.gitignore
+*.csv
+*.parquet
+*.npz
+*.npy
+*.joblib
+*.pkl
+*.sqlite
+*.sqlite3
+
+# Logs and local files
+*.log
+.DS_Store
+database_check.ipynb
+olist_task3_phase1_patch/
+olist_task3_phase2a_api_patch/
+olist_task3_phase2b_data_validation_patch/
+mlflow_store/
+mlruns/
+mlartifacts/
+mlflow.db
+mlflow.db-*
+
+# Local credential and secret files
+credentials.json
+credentials.*.json
+secrets.json
+secrets.*.json
+!credentials.example.json
+!credentials.template.json
+!secrets.example.json
+!secrets.template.json
+/.aws/credentials
+/.aws/config

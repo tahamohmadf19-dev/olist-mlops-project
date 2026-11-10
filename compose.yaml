@@ -1,0 +1,42 @@
+name: olist-inference-local
+
+services:
+  api:
+    image: olist-inference:task3-local
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "127.0.0.1:8001:8000"
+    environment:
+      OLIST_INFERENCE_CONFIG: /app/config/inference.json
+      PYTHONDONTWRITEBYTECODE: "1"
+      PYTHONUNBUFFERED: "1"
+    volumes:
+      - type: bind
+        source: ./artifacts/05_feature_engineering/05_preprocessor.joblib
+        target: /app/artifacts/05_feature_engineering/05_preprocessor.joblib
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ./artifacts/06_model/06_best_model.joblib
+        target: /app/artifacts/06_model/06_best_model.joblib
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ./artifacts/06_model/06_results_summary.json
+        target: /app/artifacts/06_model/06_results_summary.json
+        read_only: true
+        bind:
+          create_host_path: false
+    read_only: true
+    tmpfs:
+      - /tmp:rw,nosuid,nodev,size=64m
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    init: true
+    restart: "no"

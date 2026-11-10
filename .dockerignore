@@ -1,0 +1,29 @@
+# Deny everything, explicitly allow only the inference code and dependency manifests.
+*
+!Dockerfile
+!app/
+!app/**
+!src/
+!src/**
+!config/
+!config/inference.json
+!requirements/
+!requirements/runtime.txt
+!requirements/api.txt
+
+# Explicitly reject accidental sensitive or generated files inside allowed trees.
+**/__pycache__/
+**/__pycache__/**
+**/*.pyc
+**/*.pyo
+**/.env
+**/.env.*
+**/*.csv
+**/*.parquet
+**/*.joblib
+**/*.pkl
+**/*.npz
+**/*.npy
+**/*.key
+**/*.pem
+**/*.ipynb

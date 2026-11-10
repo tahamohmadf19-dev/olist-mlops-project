@@ -1,0 +1,5 @@
+outs:
+- md5: 5678529fd16cc6f79b8b734de195ab3c
+  size: 1174
+  hash: md5
+  path: 06_results_summary.json

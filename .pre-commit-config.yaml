@@ -1,0 +1,19 @@
+# Portable, isolated Ruff hooks. Run pre-commit==4.7.0 locally.
+# Pytest also runs in GitHub Actions and can be run manually.
+repos:
+  - repo: local
+    hooks:
+      - id: ruff-lint
+        name: Ruff lint (inference source)
+        entry: ruff check --select E4,E7,E9,F app src scripts tests
+        language: python
+        additional_dependencies: [ruff==0.17.3]
+        pass_filenames: false
+        always_run: true
+      - id: ruff-format-check
+        name: Ruff format check (inference source)
+        entry: ruff format --check app src scripts tests
+        language: python
+        additional_dependencies: [ruff==0.17.3]
+        pass_filenames: false
+        always_run: true

@@ -1,0 +1,5 @@
+outs:
+- md5: f8a79d22719d9043a76a1b9d97c5d46b
+  size: 9195693
+  hash: md5
+  path: 05_train_features.npz

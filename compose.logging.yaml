@@ -1,0 +1,9 @@
+# Local Docker log retention for prediction-summary JSON events.
+# Requires -f compose.yaml -f compose.monitoring.yaml -f compose.logging.yaml.
+services:
+  api:
+    logging:
+      driver: local
+      options:
+        max-size: "5m"
+        max-file: "3"

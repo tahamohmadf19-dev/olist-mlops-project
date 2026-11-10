@@ -1,0 +1,56 @@
+rule_files:
+  - alert_rules.yml
+
+evaluation_interval: 15s
+
+tests:
+  - name: api_down
+    interval: 15s
+    input_series:
+      - series: 'up{job="olist-api",instance="api:8000"}'
+        values: '0+0x20'
+    alert_rule_test:
+      - eval_time: 1m
+        alertname: OlistAPIDown
+        exp_alerts: []
+      - eval_time: 3m
+        alertname: OlistAPIDown
+        exp_alerts:
+          - exp_labels:
+              job: olist-api
+              instance: api:8000
+              severity: critical
+            exp_annotations:
+              summary: "Olist API scrape target unavailable"
+              description: "Prometheus cannot scrape the Olist API for at least 2 minutes."
+
+  - name: high_error_rate
+    interval: 15s
+    input_series:
+      - series: 'up{job="olist-api",instance="api:8000"}'
+        values: '1+0x60'
+      - series: 'olist_http_requests_total{job="olist-api",route="predict",status="200"}'
+        values: '0+20x60'
+      - series: 'olist_http_requests_total{job="olist-api",route="predict",status="503"}'
+        values: '0+5x60'
+    alert_rule_test:
+      - eval_time: 11m
+        alertname: OlistAPIHigh5xxRate
+        exp_alerts:
+          - exp_labels:
+              severity: warning
+            exp_annotations:
+              summary: "High 5xx error rate on prediction routes"
+              description: "More than 5% 5xx responses with at least 20 prediction requests in 5 minutes."
+
+  - name: low_traffic_does_not_alert
+    interval: 1m
+    input_series:
+      - series: 'up{job="olist-api",instance="api:8000"}'
+        values: '1+0x15'
+      - series: 'olist_http_requests_total{job="olist-api",route="predict",status="503"}'
+        values: '0+1x15'
+    alert_rule_test:
+      - eval_time: 11m
+        alertname: OlistAPIHigh5xxRate
+        exp_alerts: []

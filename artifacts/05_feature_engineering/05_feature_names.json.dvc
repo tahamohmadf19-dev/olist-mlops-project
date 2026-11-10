@@ -1,0 +1,5 @@
+outs:
+- md5: 23a53c26997a54f47991e53f7574df6f
+  size: 36356
+  hash: md5
+  path: 05_feature_names.json

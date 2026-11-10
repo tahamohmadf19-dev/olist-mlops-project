@@ -1,0 +1,28 @@
+groups:
+  - name: olist_api_alerts
+    interval: 15s
+    rules:
+      - alert: OlistAPIDown
+        expr: up{job="olist-api"} == 0 or absent(up{job="olist-api"})
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Olist API scrape target unavailable"
+          description: "Prometheus cannot scrape the Olist API for at least 2 minutes."
+
+      - alert: OlistAPIHigh5xxRate
+        expr: |
+          (
+            sum(rate(olist_http_requests_total{job="olist-api",route=~"predict|predict_batch",status=~"5.."}[5m]))
+            /
+            sum(rate(olist_http_requests_total{job="olist-api",route=~"predict|predict_batch"}[5m]))
+          ) > 0.05
+          and
+          sum(increase(olist_http_requests_total{job="olist-api",route=~"predict|predict_batch"}[5m])) >= 20
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High 5xx error rate on prediction routes"
+          description: "More than 5% 5xx responses with at least 20 prediction requests in 5 minutes."

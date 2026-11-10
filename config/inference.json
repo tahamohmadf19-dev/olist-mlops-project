@@ -1,0 +1,6 @@
+{
+  "preprocessor_path": "artifacts/05_feature_engineering/05_preprocessor.joblib",
+  "model_path": "artifacts/06_model/06_best_model.joblib",
+  "summary_path": "artifacts/06_model/06_results_summary.json",
+  "max_batch_size": 100
+}
