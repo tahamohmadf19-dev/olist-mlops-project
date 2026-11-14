@@ -169,11 +169,26 @@ Offline drift commands (require the fitted artifacts and running Prometheus):
 .\.venv\Scripts\python.exe -m scripts.check_prediction_drift
 ```
 
+## Model evaluation (saved Task 2 results)
+
+Read from the local, DVC-tracked `artifacts/06_model/06_results_summary.json` (not in Git). Split is chronological by `order_purchase_timestamp`; parameters (LogisticRegression, `C=1.0`) and the decision threshold (0.339, best validation F1) were chosen on validation only.
+
+| Model | Split | ROC-AUC | PR-AUC | Precision | Recall | F1 | Accuracy |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Most-frequent baseline | validation | 0.500 | 0.043 | 0.000 | 0.000 | 0.000 | 0.957 |
+| LogisticRegression | validation | 0.746 | 0.125 | 0.162 | 0.277 | 0.205 | 0.907 |
+| LogisticRegression | **test** (14,471 orders, 4.28% late) | **0.611** | **0.067** | 0.060 | 0.373 | 0.104 | 0.725 |
+
+**How to read this:**
+- The signal is weak. On the untouched test period, PR-AUC 0.067 is about 1.6 times the 4.28% late rate, and ROC-AUC drops from 0.746 (validation) to 0.611. At the chosen threshold, about 6 in 100 orders flagged as late are late, and accuracy (0.725) is below that of always predicting "on time" (about 0.957).
+- The validation-to-test drop suggests the late-delivery pattern shifts over time. The threshold tuned on validation does not transfer well.
+- This project's value is the inference engineering (parity, tests, monitoring), not predictive accuracy. Treat the model as a baseline to improve, not a usable late-delivery predictor.
+
 ## Verified local results
 
 Results from the original Windows workstation, not from a public deployment:
 
-- Verified locally: **172 passed, 1 warning** (non-blocking Starlette/AnyIO deprecation warning).
+- Verified locally: **172 passed, 1 warning** (non-blocking Starlette/AnyIO deprecation warning). Reproduced on 2026-11-14 from a fresh clone (Python 3.12, `requirements/dev.txt` + `requirements/api.txt`): 172 passed, Ruff lint and format clean.
 - Feature parity: **14,470 validation rows x 821 transformed features; maximum absolute difference = 0**.
 - Real Docker inference parity succeeded for **5 orders**, including validation of forbidden target fields.
 - Original fitted model content fingerprint: `sha256:a2485e81e9f4`.
@@ -188,7 +203,7 @@ Results from the original Windows workstation, not from a public deployment:
 3. **Reproducibility gap**: model files, DVC cache, and MLflow store stay local; therefore, a clean clone cannot run inference until trusted compatible assets are supplied. This does not yet meet the original clean-machine, one-command startup requirement.
 4. **DVC local only**: no external recovery copy. Avoid treating GitHub as a backup of data/model files.
 5. **Monitoring gap**: predictions and eventual ground-truth delivery labels are not joined and stored in a durable evaluation database; local aggregate logs cannot support that requirement alone.
-6. **CI delivery gap**: the workflow builds, but does not push, the Docker image; no GitHub run has been verified.
+6. **CI delivery gap**: the workflow builds, but does not push or run, the Docker image. CI itself is verified (runs `42859752354` and `42863988828` succeeded); there is no deployment stage.
 7. **Privacy**: `database_check.ipynb` contains sensitive connection details and must remain outside Git. Six public-facing notebooks had saved outputs removed, but all code and text must still be manually reviewed before publishing.
 
 ## Learning references
