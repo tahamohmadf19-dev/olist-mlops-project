@@ -1,0 +1,17 @@
+{
+  "id": "tahamohmad/olist-historical-snapshot-mlops",
+  "title": "Olist Historical Snapshot MLOps",
+  "code_file": "olist-historical-snapshot-mlops.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": false,
+  "enable_gpu": false,
+  "enable_tpu": false,
+  "enable_internet": false,
+  "dataset_sources": [
+    "olistbr/brazilian-ecommerce"
+  ],
+  "competition_sources": [],
+  "kernel_sources": [],
+  "model_sources": []
+}
