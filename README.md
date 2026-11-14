@@ -206,7 +206,12 @@ Results from the original Windows workstation, not from a public deployment:
 6. **CI delivery gap**: the workflow builds, but does not push or run, the Docker image. CI itself is verified (runs `42859752354` and `42863988828` succeeded); there is no deployment stage.
 7. **Privacy**: `database_check.ipynb` contains sensitive connection details and must remain outside Git. Six public-facing notebooks had saved outputs removed, but all code and text must still be manually reviewed before publishing.
 
-## Learning references
+## Data and licence
+
+- **Data:** Olist, *Brazilian E-Commerce Public Dataset* ([olistbr/brazilian-ecommerce](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce)), licensed **CC BY-NC-SA 4.0**: attribution, non-commercial use, share-alike. No data is stored in this repository. Notebook 1 reads it from a local PostgreSQL copy and asks for the password at run time (`getpass`).
+- **Code:** this repository has no `LICENSE` file yet, so default copyright applies until the owner chooses one.
+
+
 
 - [Task 3: From Notebooks to Production](https://madewithml.com/)
 - [DVC: Remote Storage](https://doc.dvc.org/user-guide/data-management/remote-storage)
